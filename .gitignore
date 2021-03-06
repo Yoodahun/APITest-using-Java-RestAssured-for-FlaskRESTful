@@ -1,0 +1,5 @@
+.idea
+*.iml
+DS_Store
+logging.txt
+target
