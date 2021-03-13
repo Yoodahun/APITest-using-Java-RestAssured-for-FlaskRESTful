@@ -10,7 +10,7 @@ Feature: Item feature
     And item_name value in items response body is equal to "chair4"
     And message is "More data available if you log-in"
 
-   @Item @login
+   @Item
   Scenario: GET items with login
     Given Item "GET" API
     When I try get items information
