@@ -2,6 +2,8 @@ package factory;
 
 import model.User;
 
+import java.util.HashMap;
+
 public class UserFactory extends BaseFactory {
 
     private static int USER_ID;
@@ -10,7 +12,14 @@ public class UserFactory extends BaseFactory {
     private static String refresh_token;
 
     public static User createUserRequestBody(String username, String password){
-        USER = new User(username, password);
+
+        if (username == null) {
+            USER = new User(null, password);
+        } else if (password == null) {
+            USER = new User(username, null);
+        } else {
+            USER = new User(username, password);
+        }
         return USER;
     }
 
@@ -41,5 +50,18 @@ public class UserFactory extends BaseFactory {
 
     public static void setRefresh_token(String refresh_token) {
         UserFactory.refresh_token = refresh_token;
+    }
+
+    public static HashMap createUserRequestBodyNull(String username, String password) {
+        HashMap<String, Object> requestBody = new HashMap();
+
+        if ("null".equals(username)) {
+            requestBody.put("password", password);
+        }
+        if ("null".equals(password)) {
+            requestBody.put("username", username);
+        }
+
+        return requestBody;
     }
 }

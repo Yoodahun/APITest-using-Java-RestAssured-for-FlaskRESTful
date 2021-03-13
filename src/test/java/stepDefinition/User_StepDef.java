@@ -31,8 +31,15 @@ public class User_StepDef extends UserFactory {
 
     @When("I try create user with {string} and {string} in request body")
     public void createUser_username_password_inRequestBody(String username, String password) {
-        requestSpec = given().log().all().spec(getRequestSpec())
-                .body(UserFactory.createUserRequestBody(username, password));
+        requestSpec = given().log().all().spec(getRequestSpec());
+//                .body(UserFactory.createUserRequestBody(username, password));
+
+        if (!"null".equals(username) && !"null".equals(password)) {
+            requestSpec.body(UserFactory.createUserRequestBody(username, password));
+        } else {
+            requestSpec.body(UserFactory.createUserRequestBodyNull(username, password));
+        }
+
         setResponse(
                 requestSpec.when().post(USER_END_POINT)
                         .then().extract().response()
@@ -124,4 +131,19 @@ public class User_StepDef extends UserFactory {
     }
 
 
+    @And("message is {string}")
+    public void assertMessageIs(String messageBody) {
+        Assert.assertEquals(
+                getJsonPathInResponse().getString("message"),
+                messageBody
+        );
+    }
+
+    @And("{string} is cannot be let blank")
+    public void isCannotBeLetBlank(String key) {
+        Assert.assertEquals(
+                getJsonPathInResponse().getString("message."+key),
+                "This field cannot be let blank."
+        );
+    }
 }
