@@ -14,6 +14,10 @@ public class Store {
         this.items = items;
     }
 
+    public int getStoreID() {
+        return storeID;
+    }
+
     public String getStoreName() {
         return storeName;
     }

@@ -25,6 +25,8 @@ public class Store_StepDef extends StoreFactory {
             this.USER_END_POINT = Endpoint.POST;
         } else if ("DELETE".equals(endPoint)){
             this.USER_END_POINT = Endpoint.DELETE;
+        } else if ("GET".equals(endPoint)){
+            this.USER_END_POINT = Endpoint.GET;
         }
     }
 
@@ -34,7 +36,7 @@ public class Store_StepDef extends StoreFactory {
         requestSpec = given().log().all().spec(getRequestSpec())
                 .pathParam("store_name", storeName);
 
-        executeStoreRequest(USER_END_POINT, requestSpec, storeName);
+        executeStoreRequest(USER_END_POINT, requestSpec);
     }
 
     @And("create store object in response object")
@@ -54,23 +56,27 @@ public class Store_StepDef extends StoreFactory {
                 .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
                 .pathParam("store_name", storeName);
 
-        executeStoreRequest(USER_END_POINT, requestSpec, storeName);
+        executeStoreRequest(USER_END_POINT, requestSpec);
 
     }
 
 
+    @And("store has successfully deleted")
+    public void storeHasSuccessfullyDeleted() {
+        JsonPath response = getResponse().body().jsonPath();
 
+        Assert.assertEquals(
+                response.getString("message"),
+                "Store deleted"
+        );
+    }
 
+    @When("I try get store information with {string}")
+    public void iTryGetStoreInformationWith(String storeName) {
+        requestSpec = given().log().all().spec(getRequestSpec())
+                .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
+                .pathParam("store_name", storeName);
 
-
-
-
-
-
-
-
-
-
-
-
+        executeStoreRequest(USER_END_POINT, requestSpec);
+    }
 }

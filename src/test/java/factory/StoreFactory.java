@@ -20,12 +20,20 @@ public class StoreFactory extends BaseFactory{
         );
     }
 
+    public static int getStoreID() {
+        return store.getStoreID();
+    }
 
 
-    public void executeStoreRequest(Endpoint endpoint, RequestSpecification req, String pathParam) {
+
+    public void executeStoreRequest(Endpoint endpoint, RequestSpecification req) {
 
         switch (endpoint) {
             case GET:
+                setResponse(
+                        req.when().get("/store/{store_name}")
+                                .then().extract().response()
+                );
                 break;
             case POST:
                 setResponse(
