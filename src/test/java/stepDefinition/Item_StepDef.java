@@ -8,7 +8,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import model.Item;
 import org.testng.Assert;
@@ -42,7 +41,7 @@ public class Item_StepDef extends ItemFactory {
     public void iTryCreateItemInformationWithAndStore_idInRequestBody(String itemName, String price) {
 
         requestSpec = given().log().all().spec(getRequestSpec())
-                .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
                 .pathParam("item_name", itemName)
                 .body(ItemFactory.createItemRequestBody(price));
 
@@ -75,7 +74,7 @@ public class Item_StepDef extends ItemFactory {
     @When("I try get item information with {string}")
     public void iTryGetItemInformationWith(String itemName) {
         requestSpec = given().log().all().spec(getRequestSpec())
-                .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
                 .pathParam("item_name", itemName);
 
         executeItemRequest(USER_END_POINT, requestSpec);
@@ -85,7 +84,7 @@ public class Item_StepDef extends ItemFactory {
     @When("I try delete item information with {string}")
     public void iTryDeleteItemInformationWith(String itemName) {
         requestSpec = given().log().all().spec(getRequestSpec())
-                .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
                 .pathParam("item_name", itemName);
 
         executeItemRequest(USER_END_POINT, requestSpec);
@@ -113,7 +112,7 @@ public class Item_StepDef extends ItemFactory {
 
 
         requestSpec = given().log().all().spec(getRequestSpec())
-                .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
                 .pathParam("item_name", ItemFactory.getItem().getItem_name())
                 .body(requestBody);
 

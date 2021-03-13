@@ -1,7 +1,6 @@
 package stepDefinition;
 
 import constants.Endpoint;
-import factory.BaseFactory;
 import factory.StoreFactory;
 import factory.UserFactory;
 import io.cucumber.java.en.And;
@@ -53,7 +52,7 @@ public class Store_StepDef extends StoreFactory {
     @When("I try delete store information with {string}")
     public void iTryDeleteStoreInformationWith(String storeName) {
         requestSpec = given().log().all().spec(getRequestSpec())
-                .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
                 .pathParam("store_name", storeName);
 
         executeStoreRequest(USER_END_POINT, requestSpec);
@@ -74,7 +73,7 @@ public class Store_StepDef extends StoreFactory {
     @When("I try get store information with {string}")
     public void iTryGetStoreInformationWith(String storeName) {
         requestSpec = given().log().all().spec(getRequestSpec())
-                .header("Authorization", "Bearer "+ UserFactory.getAccess_token())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
                 .pathParam("store_name", storeName);
 
         executeStoreRequest(USER_END_POINT, requestSpec);
