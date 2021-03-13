@@ -123,8 +123,8 @@ public class User_StepDef extends UserFactory {
 
     @And("save access_token and refresh_token in response object")
     public void saveAccess_tokenAndRefresh_tokenInResponseObject() {
-        UserFactory.setAccess_token(getJsonPathInResponse().getString("access_token"));
-        UserFactory.setRefresh_token(getJsonPathInResponse().getString("refresh_token"));
+        UserFactory.setAccessToken(getJsonPathInResponse().getString("access_token"));
+        UserFactory.setRefreshToken(getJsonPathInResponse().getString("refresh_token"));
 
 
 
@@ -144,6 +144,39 @@ public class User_StepDef extends UserFactory {
         Assert.assertEquals(
                 getJsonPathInResponse().getString("message."+key),
                 "This field cannot be let blank."
+        );
+    }
+
+    @When("logout without access token")
+    public void logoutWithoutAccessToken() {
+        requestSpec = given().log().all().spec(getRequestSpec());
+
+        setResponse(
+                requestSpec.when().post("/logout")
+                .then().extract().response()
+        );
+
+    }
+
+    @When("logout with wrong access token")
+    public void logoutWithWrongAccessToken() {
+        requestSpec = given().log().all().spec(getRequestSpec())
+            .header("Authorization", "Bearer wrongToken");
+
+        setResponse(
+                requestSpec.when().post("/logout")
+                        .then().extract().response()
+        );
+    }
+
+    @When("logout user information")
+    public void logoutUserInformation() {
+        requestSpec = given().log().all().spec(getRequestSpec())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken());
+
+        setResponse(
+                requestSpec.when().post("/logout")
+                        .then().extract().response()
         );
     }
 }
