@@ -8,8 +8,8 @@ public class UserFactory extends BaseFactory {
 
     private static int USER_ID;
     private static User USER;
-    private static String access_token;
-    private static String refresh_token;
+    private static String ACCESS_TOKEN;
+    private static String REFRESH_TOKEN;
 
     public static User createUserRequestBody(String username, String password){
 
@@ -36,20 +36,20 @@ public class UserFactory extends BaseFactory {
         return null;
     }
 
-    public static String getAccess_token() {
-        return access_token;
+    public static String getAccessToken() {
+        return ACCESS_TOKEN;
     }
 
-    public static void setAccess_token(String access_token) {
-        UserFactory.access_token = access_token;
+    public static void setAccessToken(String accessToken) {
+        UserFactory.ACCESS_TOKEN = accessToken;
     }
 
-    public static String getRefresh_token() {
-        return refresh_token;
+    public static String getRefreshToken() {
+        return REFRESH_TOKEN;
     }
 
-    public static void setRefresh_token(String refresh_token) {
-        UserFactory.refresh_token = refresh_token;
+    public static void setRefreshToken(String refreshToken) {
+        UserFactory.REFRESH_TOKEN = refreshToken;
     }
 
     public static HashMap createUserRequestBodyNull(String username, String password) {
@@ -63,5 +63,12 @@ public class UserFactory extends BaseFactory {
         }
 
         return requestBody;
+    }
+
+    public static void clearUser() {
+        USER_ID = 0;
+        USER = null;
+        ACCESS_TOKEN = null;
+        REFRESH_TOKEN = null;
     }
 }
