@@ -14,7 +14,7 @@ Feature: Authorization feature
     Then response status code is 401
     And description is "Signature verification failed."
 
-  @login
+  @login @BeforeLogin
   Scenario: Token has been revoked
     When logout user information
     And logout user information
