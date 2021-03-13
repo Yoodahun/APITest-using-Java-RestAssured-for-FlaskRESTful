@@ -45,6 +45,14 @@ public class Common_StepDef extends BaseFactory {
         );
 
     }
+
+    @And("description is {string}")
+    public void descriptionIs(String descriptionMessage) {
+        Assert.assertEquals(
+                getJsonPathInResponse().getString("description"),
+                descriptionMessage
+        );
+    }
 }
 
 
