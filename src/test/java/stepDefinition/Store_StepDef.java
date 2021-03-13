@@ -78,4 +78,55 @@ public class Store_StepDef extends StoreFactory {
 
         executeStoreRequest(USER_END_POINT, requestSpec);
     }
+
+    @When("I try get stores information")
+    public void iTryGetStoresInformation() {
+        requestSpec = given().log().all().spec(getRequestSpec())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken());
+
+        setResponse(
+                requestSpec.when().get("/stores")
+                .then().extract().response()
+        );
+
+    }
+
+    @And("{string} value in stores response body is equal to {string}")
+    public void valueInStoresResponseBodyIsEqualTo(String key, String storeName) {
+        Assert.assertEquals(
+                getJsonPathInResponse().getString("stores[0]."+key),
+                storeName
+        );
+
+    }
+
+    @And("create store object in context object")
+    public void createStoreObjectInContextObject() {
+
+        JsonPath response = getJsonPathInResponse();
+
+        StoreFactory.createStoreObject(
+                response.getInt("id"),
+                response.getString("name"),
+                response.getList("items", Item.class)
+        );
+
+
+    }
+
+    @And("message is store with {string} already exists")
+    public void messageIsStoreWithAlreadyExists(String storeName) {
+        Assert.assertEquals(
+                getJsonPathInResponse().getString("message"),
+                "A Store with name '" + storeName + "' already exists."
+        );
+    }
+
+    @And("message is store with {string} is not exists")
+    public void messageIsStoreWithIsNotExists(String storeName) {
+        Assert.assertEquals(
+                getJsonPathInResponse().getString("message"),
+                "Store '" + storeName + "' is not exists."
+        );
+    }
 }

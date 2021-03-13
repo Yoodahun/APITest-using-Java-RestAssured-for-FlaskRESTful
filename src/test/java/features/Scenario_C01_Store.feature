@@ -39,7 +39,6 @@ Feature: Store feature
     Then response status code is 400
     And message is store with "registered_store" already exists
 
-
   @Store
   Scenario: Delete store
     Given Store "DELETE" API

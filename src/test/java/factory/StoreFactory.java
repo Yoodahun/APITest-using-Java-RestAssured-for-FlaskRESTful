@@ -24,7 +24,13 @@ public class StoreFactory extends BaseFactory{
         return store.getStoreID();
     }
 
+    public static int getStore_id() {
+        return store_id;
+    }
 
+    public static void setStore_id(int store_id) {
+        StoreFactory.store_id = store_id;
+    }
 
     public void executeStoreRequest(Endpoint endpoint, RequestSpecification req) {
 
@@ -52,6 +58,11 @@ public class StoreFactory extends BaseFactory{
 
         }
 
+    }
+
+    public static void clearStore() {
+        store = null;
+        store_id = 0;
     }
 
 }
