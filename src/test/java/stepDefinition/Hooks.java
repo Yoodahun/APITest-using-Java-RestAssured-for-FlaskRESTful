@@ -1,5 +1,7 @@
 package stepDefinition;
 
+import factory.ItemFactory;
+import factory.StoreFactory;
 import factory.UserFactory;
 import io.cucumber.java.Before;
 import stepDefinition.User_StepDef;
@@ -16,6 +18,14 @@ public class Hooks {
         userStepDef.user_api("Login");
         userStepDef.loginUserUsing_username_And_password("jose2", "asdf");
         userStepDef.saveAccess_tokenAndRefresh_tokenInResponseObject();
+
+    }
+
+    @Before(value = "@item_feature_start")
+    public void itemFeatureStart() {
+       UserFactory.clearUser();
+       ItemFactory.clearItem();
+        StoreFactory.clearStore();
 
     }
 }
