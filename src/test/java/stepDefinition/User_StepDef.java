@@ -107,7 +107,7 @@ public class User_StepDef extends UserFactory {
     @When("I try login user with {string} and {string}")
     public void loginUserUsing_username_And_password(String username, String password) {
         User user;
-        if (UserFactory.getUser() == null) {
+        if (UserFactory.getUser() == null || "not_registered_user".equals(username)) {
             user = UserFactory.createUserRequestBody(username, password);
         } else {
             user = UserFactory.getUser();

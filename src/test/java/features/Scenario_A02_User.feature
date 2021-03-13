@@ -2,7 +2,7 @@
 Feature: User feature
   Check user feature which login, get, delete
 
- @User
+  @User
   Scenario: Login which is not invalid or not registered user info
     Given User "Login" API
     When I try login user with "not_registered_user" and "password"
