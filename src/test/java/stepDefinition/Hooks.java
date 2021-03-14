@@ -28,4 +28,15 @@ public class Hooks {
         StoreFactory.clearStore();
 
     }
+
+    @Before(value = "@update_item_without_store_id_in_DB")
+    public void updateItemWithoutStoreIDinDB() {
+        ItemFactory.getItem().setStore_id(402);
+
+    }
+
+    @Before(value = "@update_item_without_store_id")
+    public void updateItemWithoutStoreID() {
+        ItemFactory.getItem().setStore_id(0);
+    }
 }
