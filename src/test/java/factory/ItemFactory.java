@@ -53,13 +53,22 @@ public class ItemFactory extends BaseFactory {
         return item;
     }
 
+    public static void clearItem(){
+        item = null;
+    }
+
     public static HashMap createItemRequestBody(String price){
         HashMap<String, Object> requestBody = new HashMap();
-        requestBody.put("price", Float.parseFloat(price));
-        requestBody.put("store_id", StoreFactory.getStoreID());
+
+        if("null".equals(price)) {
+            requestBody.put("store_id", StoreFactory.getStoreID());
+        } else {
+            requestBody.put("store_id", StoreFactory.getStoreID());
+            requestBody.put("price", Float.parseFloat(price));
+
+        }
 
         return requestBody;
-
 
     }
 }

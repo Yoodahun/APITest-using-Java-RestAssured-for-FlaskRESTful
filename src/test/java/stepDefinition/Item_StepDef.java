@@ -40,10 +40,16 @@ public class Item_StepDef extends ItemFactory {
     @When("I try create item information with {string} and {string}, store_id in request body")
     public void iTryCreateItemInformationWithAndStore_idInRequestBody(String itemName, String price) {
 
+        if ("create_test_item1".equals(itemName)) {
+            StoreFactory.createStoreObject(52, "store_for_test", null);
+        }
+
         requestSpec = given().log().all().spec(getRequestSpec())
                 .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
                 .pathParam("item_name", itemName)
                 .body(ItemFactory.createItemRequestBody(price));
+
+
 
         executeItemRequest(USER_END_POINT, requestSpec);
 
@@ -107,8 +113,14 @@ public class Item_StepDef extends ItemFactory {
         Item item = ItemFactory.getItem();
 
         HashMap<String, Object> requestBody = new HashMap();
-        requestBody.put("price", Float.parseFloat(price));
-        requestBody.put("store_id", item.getStore_id());
+
+        if (!"null".equals(price)) {
+            requestBody.put("price", Float.parseFloat(price));
+        }
+        if( item.getStore_id() != 0) {
+            requestBody.put("store_id", item.getStore_id());
+        }
+
 
 
         requestSpec = given().log().all().spec(getRequestSpec())
@@ -118,4 +130,101 @@ public class Item_StepDef extends ItemFactory {
 
         executeItemRequest(USER_END_POINT, requestSpec);
     }
+
+    @When("I try get items information")
+    public void iTryGetItemsInformation() {
+        requestSpec = given().log().all().spec(getRequestSpec());
+
+        if(UserFactory.getUser() != null) {
+            requestSpec.header("Authorization", "Bearer "+ UserFactory.getAccessToken());
+        }
+
+        setResponse(
+                requestSpec.when().get("/items")
+                .then().extract().response()
+        );
+
+
+    }
+
+    @And("item_name value in items response body is equal to {string}")
+    public void item_nameValueInItemsResponseBodyIsEqualTo(String itemName) {
+        JsonPath response = getJsonPathInResponse();
+
+
+        if (UserFactory.getUser() == null) {
+            Assert.assertEquals(
+                    response.getString("items[0]"),
+                    itemName
+            );
+        } else {
+            Assert.assertEquals(
+                    response.getString("items[0].name"),
+                    itemName
+            );
+            System.out.println(response.get("items"));
+            ItemFactory.createItem(
+                    response.getInt("items[0].id"),
+                    response.getString("items[0].name"),
+                    response.getFloat("items[0].price"),
+                    response.getInt("items[0].store_id")
+
+            );
+            StoreFactory.createStoreObject(
+                    response.getInt("items[0].store_id"),
+                    "store_for_test",
+                    null
+            );
+        }
+
+
+    }
+
+
+
+    @And("message is An item with {string} already exists")
+    public void messageIsAnItemWithAlreadyExists(String itemName) {
+        JsonPath response = getJsonPathInResponse();
+
+        Assert.assertEquals(
+                response.getString("message"),
+                "An item with '" + itemName +"' already exists"
+        );
+    }
+
+    @When("I try create item information with {string} and {string}, store_id {string} in request body")
+    public void iTryCreateItemInformationWithAndStore_idInRequestBody(String itemName, String price, String storeID) {
+
+        HashMap<String, Object> requestBody = ItemFactory.createItemRequestBody(price);
+
+        if ("no_store_item".equals(itemName)) {
+            requestBody.put("store_id", 402);
+        }
+        if ("null".equals(storeID)) {
+            requestBody.remove("store_id");
+        }
+
+        requestSpec = given().log().all().spec(getRequestSpec())
+                .header("Authorization", "Bearer "+ UserFactory.getAccessToken())
+                .pathParam("item_name", itemName)
+                .body(requestBody);
+
+        executeItemRequest(USER_END_POINT, requestSpec);
+
+    }
+
+    @And("store_id is Every item needs a store id")
+    public void store_idIsEveryItemNeedsAStoreId() {
+        JsonPath response = getJsonPathInResponse();
+
+        Assert.assertEquals(
+                response.getString("message.store_id"),
+                "Every item needs a store id."
+        );
+    }
+
+//    @When("I try delete item information with {string} in request body")
+//    public void iTryDeleteItemInformationWithInRequestBody(String itemName) {
+//
+//    }
 }

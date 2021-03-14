@@ -10,7 +10,7 @@ Feature: Item feature
     And item_name value in items response body is equal to "chair4"
     And message is "More data available if you log-in"
 
-   @Item
+  @Item @BeforeLogin
   Scenario: GET items with login
     Given Item "GET" API
     When I try get items information
@@ -107,6 +107,6 @@ Feature: Item feature
   @Item @logout
   Scenario: Delete item
     Given Item "DELETE" API
-    When I try delete item information with "create_test_item1" in request body
+    When I try delete item information with "create_test_item1"
     Then response status code is 200
     And item has successfully deleted
