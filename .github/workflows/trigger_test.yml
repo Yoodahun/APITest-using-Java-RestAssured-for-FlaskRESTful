@@ -5,7 +5,8 @@ name: Triggering test
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  [repository_dispatch]
+  repository_dispatch
+    types: [TRIGGER_API_TEST]
 
   # Allows you to run this workflow manually from the Actions tab
 #  workflow_dispatch:
@@ -24,7 +25,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Check Github action trigger
-        if: github.event.action == 'TRIGGER_API_TEST'
         run:  |
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
 
