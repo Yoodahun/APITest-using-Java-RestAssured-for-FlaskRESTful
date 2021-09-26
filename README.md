@@ -7,9 +7,21 @@ Java의 `RestAssured` 를 사용하여 API Test를 구성해보았습니다.
 
 테스트 대상인 API Server는 아래 repo를 확인해주세요.
 
-https://github.com/Yoodahun/Practice-Flask-RESTful
+- https://github.com/Yoodahun/Practice-Flask-RESTful
 
 테스트 관점으로는 DB에서 발생하는 에러 등, **가능한 한 확인할 수 있는 모든 status code를 확인한다** 라는 관점으로 test scenario를 작성하였습니다.
+
+---
+
+Github action을 이용하여 Server의 repository에 Push가 발생할 경우, Triggering을 통한 자동 테스트를 구축해놓았습니다.
+
+자세한 후기는 아래를 확인해주세요!
+
+**Github Action을 이용한 CI Flow구축 후기**
+
+- [https://velog.io/@dahunyoo/Github-Action의-Triggering을-이용한-간단한-CI-구성해보기](https://velog.io/@dahunyoo/Github-Action의-Triggering을-이용한-간단한-CI-구성해보기)
+
+
 
 ----
 
